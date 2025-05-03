@@ -1,0 +1,5 @@
+SpeechRecognition==3.14.2
+pywin32==310
+num2words==0.5.14
+pyaudio==0.2.14
+wikipedia==1.4.0

@@ -5,11 +5,50 @@ import os
 import win32com.client
 import random
 from num2words import num2words
-from openai import OpenAI
+import subprocess
+import sys
+
 speaker = win32com.client.Dispatch("SAPI.SpVoice")
+firstError = "I am not able to recognize your task please check your microphone and try again !"
 
-firstError = "I am not able to recognize your task please check your microphone and try again"
+def read_requirements():
+    """Read the package names from the requirements.txt file."""
+    with open("requirements.txt", "r") as f:
+        return [line.strip() for line in f.readlines() if line.strip()]
 
+def is_package_installed(pkg_name):
+    """Check if a package is already installed."""
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "show", pkg_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
+def install_missing_packages():
+    """Install missing packages from requirements.txt."""
+    packages = read_requirements()
+    missing = [pkg for pkg in packages if not is_package_installed(pkg)]
+
+    if missing:
+        print(f"📦 Installing missing packages: {', '.join(missing)}")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", *missing])
+    else:
+        print("✅ All required packages are already installed.")
+
+def setup_environment():
+    """Setup environment by checking/installing packages and creating necessary files."""
+    install_missing_packages()
+
+    # Create config file if it doesn't exist
+    if not os.path.exists("config.txt"):
+        with open("config.txt", "w") as f:
+            f.write("default_config=1\n")
+        print("✅ Created config.txt")
+
+    # Create logs directory if it doesn't exist
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
+        print("✅ Created logs/ directory")
 
 def say(text):
     speaker.Speak(text)
@@ -30,8 +69,10 @@ def takeCommand():
     except Exception as e:
         return firstError
 
+
 if __name__ == "__main__":
-    print('Welcome To Sillycon Bot')
+    setup_environment()
+    print("🚀 Starting Sillycon Bot v1 ...")
     say("Yes sir what i do for you")
     while True:
         print("Listening...")
