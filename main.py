@@ -98,25 +98,26 @@ if __name__ == "__main__":
 
 
 
-        #   This Code Is For Video Purpose
-        # if "video" in query:
-        #     folder_path = "E:/RP Movies/"
-        #     video_extensions = ('.mp4', '.mkv', '.avi', '.mov')
-        #
-        #     videos = [f for f in os.listdir(folder_path) if f.endswith(video_extensions)]
-        #     if videos:
-        #         random_video = random.choice(videos)
-        #         os.startfile(os.path.join(folder_path, random_video))
+          #This Code Is For Video Purpose
+        if "video" in query:
+            folder_path = "E:/RP Movies/"
+            video_extensions = ('.mp4', '.mkv', '.avi', '.mov')
 
-        # This Code Is For Music Purpose
-        # if "play music" in query:
-        #     music_folder = "E:/RP Music"
-        #     music_extensions = ('.mp3', '.wav', '.aac')
-        #
-        #     songs = [f for f in os.listdir(music_folder) if f.endswith(music_extensions)]
-        #     if songs:
-        #         song = random.choice(songs)
-        #         os.startfile(os.path.join(music_folder, song))
+            videos = [f for f in os.listdir(folder_path) if f.endswith(video_extensions)]
+            if videos:
+                random_video = random.choice(videos)
+                os.startfile(os.path.join(folder_path, random_video))
+
+
+        #This Code Is For Music Purpose
+        if "play music" in query:
+            music_folder = "E:/RP Music"
+            music_extensions = ('.mp3', '.wav', '.aac')
+
+            songs = [f for f in os.listdir(music_folder) if f.endswith(music_extensions)]
+            if songs:
+                song = random.choice(songs)
+                os.startfile(os.path.join(music_folder, song))
 
 
         if(query == firstError):
